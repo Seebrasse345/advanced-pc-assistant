@@ -1,6 +1,6 @@
-# Advanced PC Assistant Agent
+# Advanced PC Assistant Agent with RAG
 
-An AI-powered agent that assists with various PC tasks using OpenAI's API. This project provides an interactive CLI interface where users can request help with file operations, system information, web requests, and more.
+An AI-powered agent that assists with various PC tasks using OpenAI's API. This project provides an interactive CLI interface where users can request help with file operations, system information, web requests, and more. The agent now features Retrieval Augmented Generation (RAG) with a knowledge base to provide more informed responses based on stored information and web content.
 
 ## Features
 
@@ -12,6 +12,9 @@ An AI-powered agent that assists with various PC tasks using OpenAI's API. This 
 - **Browser Integration**: Open URLs directly in your default browser
 - **Task Management**: Keep track of tasks with a built-in task manager
 - **HTTP Traffic Logging**: Use the built-in scraper to log HTTP traffic for analysis
+- **Knowledge Base**: Store and retrieve information for more contextual responses
+- **Web Scraping**: Extract and store content from websites
+- **RAG Integration**: Enhance responses with relevant information from the knowledge base
 
 ## Installation
 
@@ -126,12 +129,69 @@ The agent comes with several built-in tools:
   Mark task #3 as complete
   ```
 
+### Knowledge Base Tools
+
+- **kb_add**: Add content to the knowledge base
+  ```
+  Store this information for future reference
+  ```
+
+- **kb_search**: Search for information in the knowledge base
+  ```
+  Find information about Python in my knowledge base
+  ```
+
+- **kb_retrieve**: Get a specific document from the knowledge base
+  ```
+  Retrieve document with ID abc-123-xyz
+  ```
+
+- **kb_recent**: View recently added documents
+  ```
+  Show me the most recent additions to my knowledge base
+  ```
+
+- **kb_delete**: Remove a document from the knowledge base
+  ```
+  Delete document with ID abc-123-xyz
+  ```
+
+- **kb_stats**: Get statistics about the knowledge base
+  ```
+  How many documents are in my knowledge base?
+  ```
+
+### Web Processing Tools
+
+- **web_scrape**: Extract content from a website and add it to the knowledge base
+  ```
+  Scrape and store content from https://example.com/article
+  ```
+
+- **web_crawl**: Crawl multiple pages of a website and add content to the knowledge base
+  ```
+  Crawl https://example.com and store the first 5 pages
+  ```
+
+## How RAG Works in this Application
+
+The Retrieval Augmented Generation (RAG) implementation in this agent:
+
+1. **Stores Knowledge**: Content from web scraping, user interactions, and manually added information is stored in a SQLite database with vector embeddings.
+
+2. **Retrieves Context**: When you ask a question, the agent searches the knowledge base for relevant information using semantic similarity.
+
+3. **Enhances Responses**: The retrieved information is used to provide more accurate and contextually relevant answers.
+
+4. **Learns Over Time**: As more information is added to the knowledge base, the agent becomes more knowledgeable and helpful.
+
 ## Configuration
 
 You can customize the assistant's behavior by modifying these parameters in `agent.py`:
 
 - Change the AI model by updating the `model` parameter in the `Agent` class instantiation
 - Add custom tools by extending the `additional_tools` parameter
+- Modify the knowledge base path by changing the `kb_path` parameter (default: "data/knowledge.db")
 
 ## Troubleshooting
 
@@ -140,6 +200,13 @@ You can customize the assistant's behavior by modifying these parameters in `age
 If you encounter errors related to the API key:
 - Ensure the environment variable is set correctly
 - Check that your API key is valid and has sufficient credits
+
+### Knowledge Base Issues
+
+If the knowledge base isn't working as expected:
+- Ensure the required dependencies are installed
+- Check that the database file is accessible and writable
+- Try adding simple test content to verify storage and retrieval
 
 ### Proxy Setting Issues
 
